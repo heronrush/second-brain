@@ -10,8 +10,8 @@ interface ButtonProps {
 }
 
 const variantStyles = {
-  primary: "bg-[#7164c0] text-white",
-  secondary: "bg-[#d9ddee] text-purple-dark",
+  primary: "bg-[#5046e4] text-white hover:bg-[#3e36c0]",
+  secondary: "bg-[#e0e7ff] text-[#37319e] hover:bg-[#c7d2fe]",
 };
 
 const sizeStyles = {
@@ -20,7 +20,8 @@ const sizeStyles = {
   lg: "py-4 px-6",
 };
 
-const defaultStyles = "rounded-md flex gap-3 items-center cursor-pointer";
+const defaultStyles =
+  "rounded-md flex gap-3 items-center cursor-pointer font-semibold transition duration-300";
 
 export const Button = (props: ButtonProps) => {
   return (

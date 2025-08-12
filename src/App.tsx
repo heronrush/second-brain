@@ -1,32 +1,14 @@
-import { Button } from "./components/Button";
-import Card from "./components/Card";
-import { PlusIcon } from "./icons/PlusIcon";
-import { ShareIcon } from "./icons/ShareIcon";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
     <div>
-      <Button
-        variant="primary"
-        size="lg"
-        text="Share Brain"
-        onClick={() => {
-          alert("hello world");
-        }}
-        startIcon={<ShareIcon />}
-      />
-      <Button
-        variant="secondary"
-        size="lg"
-        text="Add Content"
-        onClick={() => {
-          alert("hello world");
-        }}
-        startIcon={<PlusIcon />}
-      />
-
-      {/* card component */}
-      <Card />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
