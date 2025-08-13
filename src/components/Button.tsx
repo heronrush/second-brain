@@ -7,6 +7,7 @@ interface ButtonProps {
   startIcon?: ReactElement;
   endIcon?: ReactElement;
   onClick: () => void;
+  className?: string;
 }
 
 const variantStyles = {
@@ -28,7 +29,7 @@ export const Button = (props: ButtonProps) => {
     <button
       className={`${variantStyles[props.variant]}  ${defaultStyles} ${
         sizeStyles[props.size]
-      }`}
+      }  ${props.className}`}
       onClick={props.onClick}
     >
       {props.startIcon} {props.text} {props.endIcon}

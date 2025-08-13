@@ -9,7 +9,7 @@ type CardType = {
   // id?: string;
   title?: string;
   description?: string;
-  content?: string | undefined;
+  content: string;
   contentType?: "tweet" | "document" | "video" | "link";
 };
 
@@ -41,7 +41,7 @@ export default function Card({
         {contentType === "tweet" ? (
           <TwitterPost />
         ) : (
-          <VideoPost content={content} />
+          <VideoPost videoLink={content} />
         )}
       </div>
 
@@ -69,8 +69,8 @@ function TwitterPost() {
   );
 }
 
-function VideoPost({ content }: { content: string }) {
-  const videoId = getVideoId(content);
+function VideoPost({ videoLink }: { videoLink: string }) {
+  const videoId = getVideoId(videoLink);
 
   return (
     <div>

@@ -14,21 +14,14 @@ export default function DashboardMainContent() {
 
 function ContentContainer() {
   return (
-    <div className="mt-20 px-20  pb-20 flex flex-wrap gap-10 ">
+    <div className="mt-20 px-10  pb-20 flex flex-wrap gap-10 ">
       <Card
-        content="https://www.youtube.com/watch?v=Q2NePVoGxYg"
-        title="some youtube video"
+        content="https://www.youtube.com/watch?v=8tx2viHpgA8"
+        title="gpt"
         contentType="video"
-        description="dave gray youtube video"
       />
       <Card
-        content="https://www.youtube.com/watch?v=DcKXiQOagZ8&list=RDDcKXiQOagZ8&start_radio=1"
-        title="some youtube video"
-        contentType="video"
-        description="dave gray youtube video"
-      />
-      <Card
-        content="https://youtu.be/3B5M8TyYpeg?si=18ZkGoq4sIVD5zW7"
+        content="https://www.youtube.com/watch?v=0XvOOi6g5Ok"
         title="some youtube video"
         contentType="video"
         description="dave gray youtube video"

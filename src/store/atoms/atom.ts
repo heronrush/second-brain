@@ -11,3 +11,5 @@ export const videosTileAtom = atom(false);
 export const documentsTileAtom = atom(false);
 export const linksTileAtom = atom(false);
 export const tagsTileAtom = atom(false);
+
+// to open the modal when Add content button is clicked

@@ -11,7 +11,7 @@ import {
   tagsTileAtom,
   tweetTileAtom,
   videosTileAtom,
-} from "../store/atoms/contentTypeAtom";
+} from "../store/atoms/atom";
 import { BrainIcon } from "../icons/BrainIcon";
 import { Link } from "react-router-dom";
 
