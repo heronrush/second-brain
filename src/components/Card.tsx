@@ -8,32 +8,45 @@ import { VideoIcon } from "../icons/VideoIcon";
 type CardType = {
   // id?: string;
   title?: string;
-  content: string;
+  description?: string;
+  content?: string | undefined;
   contentType?: "tweet" | "document" | "video" | "link";
 };
 
 const contentTypeIcon = {
   tweet: <TwitterIcon />,
-  video: <VideoIcon />,
+  video: <VideoIcon className="text-gray-600" />,
   document: <DocumentIcon />,
   link: <LinkIcon />,
 };
 
-export default function Card({ title, content, contentType }: CardType) {
+export default function Card({
+  title,
+  description,
+  content,
+  contentType,
+}: CardType) {
   return (
-    <div className="max-w-96 p-8 pt-2 border border-gray-300 rounded-md shadow-sm">
+    <div className="max-w-96 p-8 pt-2 border border-gray-300 rounded-md shadow-sm hover:shadow-lg">
       {/* contains the top div, contains icons */}
       <div className="flex items-center justify-between">
         <div>{contentType && contentTypeIcon[contentType]}</div>
         <div className="flex items-center gap-5">
-          <ShareIcon />
-          <DeleteIcon />
+          <ShareIcon className="hover:text-[#3e36c0] size-5" />
+          <DeleteIcon className="hover:text-red-500 size-5" />
         </div>
       </div>
       <h1 className="text-2xl mt-2">{title}</h1>
-      <p className="mt-7 ">
-        {contentType === "tweet" ? <TwitterPost /> : <VideoPost />}
-      </p>
+      <div className="mt-7 ">
+        {contentType === "tweet" ? (
+          <TwitterPost />
+        ) : (
+          <VideoPost content={content} />
+        )}
+      </div>
+
+      {/* description */}
+      <p className="mt-3">{description}</p>
     </div>
   );
 }
@@ -56,17 +69,39 @@ function TwitterPost() {
   );
 }
 
-function VideoPost() {
+function VideoPost({ content }: { content: string }) {
+  const videoId = getVideoId(content);
+
   return (
     <div>
-      <iframe
-        src="https://www.youtube.com/embed/OXGznpKZ_sA?si=TOtgsGUhWl_Pjirn"
-        title="YouTube video player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allowfullscreen
-      ></iframe>
+      <a href={`youtube.com/watch?v=${videoId}`} target="_blank">
+        <iframe src={`https://www.youtube.com/embed/${videoId}`}></iframe>
+      </a>
     </div>
   );
+}
+
+/*
+https://www.youtube.com/watch?v=4zKQyW7KVPA
+https://youtu.be/4zKQyW7KVPA?si=YT2jQSIQ9RDbgDpm
+
+src="https://www.youtube.com/embed/4zKQyW7KVPA?si=YT2jQSIQ9RDbgDpm" 
+
+
+
+*/
+
+function getVideoId(link: string) {
+  const dotComIncludes = link.includes(".com/");
+  if (dotComIncludes) {
+    const twoString = link.split("v=");
+    const videoId = twoString[1].split("&");
+    return videoId[0];
+  } else {
+    const twoStrings = link.split("youtu.be/");
+    const againSplit = twoStrings[1].split("?si=");
+
+    const videoId = againSplit[0];
+    return videoId;
+  }
 }

@@ -12,6 +12,8 @@ import {
   tweetTileAtom,
   videosTileAtom,
 } from "../store/atoms/contentTypeAtom";
+import { BrainIcon } from "../icons/BrainIcon";
+import { Link } from "react-router-dom";
 
 export default function Sidebar() {
   const [tweetsTile, setTweetsTile] = useAtom(tweetTileAtom);
@@ -22,7 +24,14 @@ export default function Sidebar() {
 
   return (
     <div className="w-64 border-gray-300 shadow-md border-r h-screen flex flex-col items-center fixed">
-      <h1 className="text-2xl mt-3">Second brain</h1>
+      <Link to="/" className="cursor-pointer">
+        <div className="flex gap-4 items-center mt-3">
+          <BrainIcon />
+          <h1 className="text-2xl text-[#37319e] font-semibold">
+            Second Brain
+          </h1>
+        </div>
+      </Link>
 
       <div className="mt-20">
         <SidebarItem

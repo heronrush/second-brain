@@ -1,4 +1,4 @@
-export function VideoIcon() {
+export function VideoIcon({ className }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -6,7 +6,7 @@ export function VideoIcon() {
       viewBox="0 0 24 24"
       stroke-width="1.5"
       stroke="currentColor"
-      className="size-6"
+      className={`size-6 ${className}`}
     >
       <path
         stroke-linecap="round"

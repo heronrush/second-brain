@@ -1,4 +1,4 @@
-export function DeleteIcon() {
+export function DeleteIcon({ className }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -6,7 +6,7 @@ export function DeleteIcon() {
       viewBox="0 0 24 24"
       stroke-width="1.5"
       stroke="currentColor"
-      className="size-5 cursor-pointer"
+      className={`size-5 cursor-pointer ${className}`}
     >
       <path
         stroke-linecap="round"
