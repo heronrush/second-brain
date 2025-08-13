@@ -1,16 +1,26 @@
+import { useSetAtom } from "jotai";
 import { CrossIcon } from "../icons/CrossIcon";
 import { DocumentIcon } from "../icons/DocumentIcon";
 import { LinkIcon } from "../icons/LinkIcon";
 import { TwitterIcon } from "../icons/TwitterIcon";
 import { VideoIcon } from "../icons/VideoIcon";
 import { Button } from "./Button";
+import { modalAtom } from "../store/atoms/atom";
 
 export function AddContentModal() {
+  const showModal = useSetAtom(modalAtom);
+
   return (
     <div className="h-full w-full bg-[rgba(0,0,0,0.5)] fixed top-0 left-0  flex justify-center items-center">
       <div className=" w-96 pb-10 rounded-lg bg-white text-black shadow-md z-10 ">
         <div className="flex justify-end m-3">
-          <CrossIcon />
+          <button
+            onClick={() => {
+              showModal(false);
+            }}
+          >
+            <CrossIcon />
+          </button>
         </div>
         <div className="flex flex-col items-center py-3 pt-1">
           <LabelledInput label="Title" placeholder="Elon Musk, Tesla, Tweet" />

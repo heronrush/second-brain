@@ -1,7 +1,9 @@
+import { useSetAtom } from "jotai";
 import { PlusIcon } from "../icons/PlusIcon";
 import { ShareIcon } from "../icons/ShareIcon";
 import { Button } from "./Button";
 import Card from "./Card";
+import { modalAtom } from "../store/atoms/atom";
 
 export default function DashboardMainContent() {
   return (
@@ -31,6 +33,8 @@ function ContentContainer() {
 }
 
 function Topbar() {
+  const openModal = useSetAtom(modalAtom);
+
   return (
     <div className="flex justify-end pr-10 pt-5">
       <div className="flex gap-6">
@@ -48,7 +52,7 @@ function Topbar() {
           size="lg"
           text="Add content"
           onClick={() => {
-            alert("add content");
+            openModal(true);
           }}
           startIcon={<PlusIcon />}
         />
