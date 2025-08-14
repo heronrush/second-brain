@@ -1,9 +1,24 @@
 import type { ChangeEvent } from "react";
+import { useNavigate } from "react-router-dom";
+import { BrainIcon } from "../icons/BrainIcon";
 
 export default function Signup() {
+  const navigate = useNavigate();
+
   return (
-    <div className="flex items-center justify-center h-screen bg-[#f9fafb]">
-      <div className="border bg-white w-[500px]  border-gray-200 rounded-2xl p-10 pb-16 flex flex-col justify-center">
+    <div className="flex flex-col items-center h-screen bg-[#f9fafb]">
+      <div className="flex justify-between px-20 pt-2 w-full">
+        <button
+          className="cursor-pointer"
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          <BrainIcon />
+        </button>
+        <LoginButton />
+      </div>
+      <div className="border bg-white w-[500px] mt-10  border-gray-200 rounded-2xl p-10 pb-16 flex flex-col justify-center">
         <h1 className="text-3xl">Get started</h1>
         <p className="text-gray-600 mt-2">
           Create your account and start storing in your second brain
@@ -21,6 +36,21 @@ export default function Signup() {
         <CreateAccount />
       </div>
     </div>
+  );
+}
+
+function LoginButton() {
+  const navigate = useNavigate();
+
+  return (
+    <button
+      onClick={() => {
+        navigate("/login");
+      }}
+      className="font-semibold hover:cursor-pointer text-[#37319e] text-[18px]"
+    >
+      Log in
+    </button>
   );
 }
 

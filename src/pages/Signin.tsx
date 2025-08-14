@@ -1,9 +1,23 @@
 import type { ChangeEvent } from "react";
+import { BrainIcon } from "../icons/BrainIcon";
+import { useNavigate } from "react-router-dom";
 
 export default function Signin() {
+  const navigate = useNavigate();
   return (
-    <div className="flex items-center justify-center h-screen bg-[#f9fafb]">
-      <div className="border bg-white w-[500px]  border-gray-200 rounded-2xl p-10 pb-16 flex flex-col justify-center">
+    <div className="flex flex-col items-center h-screen bg-[#f9fafb]">
+      <div className="flex justify-between px-20 pt-2 w-full">
+        <button
+          className="cursor-pointer"
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          <BrainIcon />
+        </button>
+        <SignupButton />
+      </div>
+      <div className="border bg-white w-[500px] mt-20  border-gray-200 rounded-2xl p-10 pb-16 flex flex-col justify-center">
         <h1 className="text-3xl">Log in</h1>
         <form action="" className="mt-10">
           <LabelledInput
@@ -17,6 +31,21 @@ export default function Signin() {
         <Login />
       </div>
     </div>
+  );
+}
+
+function SignupButton() {
+  const navigate = useNavigate();
+
+  return (
+    <button
+      onClick={() => {
+        navigate("/signup");
+      }}
+      className="font-semibold hover:cursor-pointer text-[#37319e] text-[18px]"
+    >
+      Create account
+    </button>
   );
 }
 
