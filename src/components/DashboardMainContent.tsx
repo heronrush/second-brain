@@ -1,9 +1,12 @@
-import { useSetAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { PlusIcon } from "../icons/PlusIcon";
 import { ShareIcon } from "../icons/ShareIcon";
 import { Button } from "./Button";
 import Card from "./Card";
 import { modalAtom } from "../store/atoms/atom";
+import { userContentAtom } from "../store/atoms/contentAtom";
+import { useEffect } from "react";
+import axios from "axios";
 
 export default function DashboardMainContent() {
   return (
@@ -15,19 +18,53 @@ export default function DashboardMainContent() {
 }
 
 function ContentContainer() {
+  const [userContents, setUserContents] = useAtom(userContentAtom);
+  const userId = localStorage.getItem("userId");
+
+  // useEffect
+  useEffect(() => {
+    async function getContent() {
+      const response = await axios.get(
+        `http://localhost:3000/api/v1/content/${userId}`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+
+      if (response) {
+        setUserContents(response.data.contents);
+      } else {
+        setUserContents([]);
+      }
+    }
+
+    getContent();
+  }, []);
+
+  //
+  if (userContents?.length === 0) {
+    return (
+      <div className="mt-20 px-10  pb-20 flex flex-wrap gap-10 justify-center ">
+        <h1 className="text-3xl">No contents added yet.</h1>
+      </div>
+    );
+  }
+
   return (
     <div className="mt-20 px-10  pb-20 flex flex-wrap gap-10 ">
-      <Card
-        content="https://www.youtube.com/watch?v=8tx2viHpgA8"
-        title="gpt"
-        contentType="video"
-      />
-      <Card
-        content="https://www.youtube.com/watch?v=0XvOOi6g5Ok"
-        title="some youtube video"
-        contentType="video"
-        description="dave gray youtube video"
-      />
+      {userContents?.map((content) => {
+        return (
+          <Card
+            key={content.id}
+            contentLink={content.link}
+            title={content.title}
+            contentType={content.type}
+            description={content.description}
+          />
+        );
+      })}
     </div>
   );
 }

@@ -22,6 +22,7 @@ export default function Signin() {
         console.log("success");
 
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem("userId", response.data.userId);
 
         navigate("/dashboard");
       }

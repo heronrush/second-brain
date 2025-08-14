@@ -3,10 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { BrainIcon } from "../icons/BrainIcon";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
+import { useSetAtom } from "jotai";
+import { userIdAtom } from "../store/atoms/contentAtom";
 
 export default function Signup() {
   const navigate = useNavigate();
 
+  // from jotai atoms
+  const setUserIdAtomFromBackend = useSetAtom(userIdAtom);
+
+  // all local state variables
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,6 +31,8 @@ export default function Signup() {
         console.log("success");
 
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem("userId", response.data.userId);
+        setUserIdAtomFromBackend(response.data.userId);
 
         navigate("/dashboard");
       }
@@ -43,6 +51,7 @@ export default function Signup() {
     }
   }
 
+  // final jsx returned
   return (
     <div className="flex flex-col items-center h-screen bg-[#f9fafb]">
       <div className="flex justify-between px-20 pt-2 w-full">

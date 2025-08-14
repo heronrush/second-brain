@@ -1,4 +1,10 @@
-export function LinkIcon({ className }: { className?: string }) {
+export function LinkIcon({
+  className,
+  onClick,
+}: {
+  className?: string;
+  onClick?: () => void;
+}) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -7,6 +13,7 @@ export function LinkIcon({ className }: { className?: string }) {
       stroke-width="1.5"
       stroke="currentColor"
       className={`size-6 ${className}`}
+      onClick={onClick}
     >
       <path
         stroke-linecap="round"

@@ -14,3 +14,7 @@ export const tagsTileAtom = atom(false);
 
 // to open the modal when Add content button is clicked
 export const modalAtom = atom(false);
+
+export const contentTypeAtom = atom<"TWEET" | "VIDEO" | "DOCUMENT" | "LINK">(
+  "TWEET"
+);
