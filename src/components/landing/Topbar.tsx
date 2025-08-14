@@ -1,7 +1,10 @@
-import { BrainIcon } from "../icons/BrainIcon";
-import { Button } from "./Button";
+import { useNavigate } from "react-router-dom";
+import { BrainIcon } from "../../icons/BrainIcon";
+import { Button } from "../Button";
 
 export default function Topbar() {
+  const navigate = useNavigate();
+
   return (
     <div className="py-5 flex justify-between border-b border-gray-300 px-40">
       <div className="flex gap-4 items-center">
@@ -14,11 +17,18 @@ export default function Topbar() {
         <NavbarItem
           text="Login"
           onClick={() => {
-            alert("login");
+            navigate("/login");
           }}
         />
 
-        <GetStarted />
+        <Button
+          variant="primary"
+          size="md"
+          text="Get started"
+          onClick={() => {
+            navigate("/signup");
+          }}
+        />
       </div>
     </div>
   );
@@ -38,18 +48,5 @@ function NavbarItem({ text, className, onClick }: NavbarItem) {
     >
       {text}
     </button>
-  );
-}
-
-function GetStarted() {
-  return (
-    <Button
-      variant="primary"
-      size="md"
-      text="Get started"
-      onClick={() => {
-        alert("jaofei");
-      }}
-    />
   );
 }
