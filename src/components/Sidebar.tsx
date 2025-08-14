@@ -99,7 +99,7 @@ export default function Sidebar() {
         />
       </div>
 
-      <div className="flex items-center mt-30 ">
+      <div className="flex items-center mt-30 mr-7 ">
         <button
           onClick={() => {
             localStorage.removeItem("token");

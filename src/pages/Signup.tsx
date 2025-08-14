@@ -13,22 +13,33 @@ export default function Signup() {
 
   // collects all the data from the form inputs and sends them to the backend for signup
   async function sendSignupRequest() {
-    const response = await axios.post(`${BACKEND_URL}/api/v1/signup`, {
-      fullname: fullname,
-      email: email,
-      password: password,
-    });
+    try {
+      const response = await axios.post(`${BACKEND_URL}/api/v1/signup`, {
+        fullname: fullname,
+        email: email,
+        password: password,
+      });
 
-    if (response) {
-      alert("success");
-      console.log("success");
+      if (response.status === 200) {
+        alert("success");
+        console.log("success");
 
-      localStorage.setItem("token", response.data.token);
+        localStorage.setItem("token", response.data.token);
 
-      navigate("/dashboard");
-    } else {
-      alert("unsuccessful");
-      return;
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        if (err.response?.status === 403) {
+          alert("user already exists");
+        } else if (err.response?.status === 411) {
+          alert("error in inputs");
+        } else {
+          alert("server error");
+        }
+      } else {
+        alert("some error occurred");
+      }
     }
   }
 

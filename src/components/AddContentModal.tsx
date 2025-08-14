@@ -12,7 +12,7 @@ export function AddContentModal() {
 
   return (
     <div className="h-full w-full bg-[rgba(0,0,0,0.5)] fixed top-0 left-0  flex justify-center items-center">
-      <div className=" w-96 pb-10 rounded-lg bg-white text-black shadow-md z-10 ">
+      <div className=" w-[450px] pb-10 rounded-lg bg-white text-black shadow-md z-10 ">
         <div className="flex justify-end m-3">
           <button
             onClick={() => {
@@ -82,7 +82,7 @@ function LabelledInput({ label, placeholder, required }: LabelledInputType) {
       <br />
       <input
         type="text"
-        className="border w-full border-gray-300 outline-none px-2 py-3 rounded-sm"
+        className="border w-full mt-2 border-gray-300 outline-none px-2 py-3 rounded-sm"
         placeholder={placeholder}
         required={required}
       />
