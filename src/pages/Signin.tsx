@@ -1,9 +1,34 @@
-import type { ChangeEvent } from "react";
+import { useState, type ChangeEvent } from "react";
 import { BrainIcon } from "../icons/BrainIcon";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { BACKEND_URL } from "../config";
 
 export default function Signin() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  // collects all the data from the form inputs and sends them to the backend for signup
+  async function sendSigninRequest() {
+    const response = await axios.post(`${BACKEND_URL}/api/v1/signin`, {
+      email: email,
+      password: password,
+    });
+
+    if (response) {
+      alert("success");
+      console.log("success");
+
+      localStorage.setItem("token", response.data.token);
+
+      navigate("/dashboard");
+    } else {
+      alert("unsuccessful");
+      return;
+    }
+  }
+
   return (
     <div className="flex flex-col items-center h-screen bg-[#f9fafb]">
       <div className="flex justify-between px-20 pt-2 w-full">
@@ -19,16 +44,31 @@ export default function Signin() {
       </div>
       <div className="border bg-white w-[500px] mt-20  border-gray-200 rounded-2xl p-10 pb-16 flex flex-col justify-center">
         <h1 className="text-3xl">Log in</h1>
-        <form action="" className="mt-10">
+        <form
+          action=""
+          onSubmit={(e) => {
+            e.preventDefault();
+            sendSigninRequest();
+          }}
+          className="mt-10"
+        >
           <LabelledInput
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
             label="Email"
             placeholder="john@example.com"
             type="text"
           />
-          <LabelledInput label="Password" type="password" />
+          <LabelledInput
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            label="Password"
+            type="password"
+          />
+          <Login />
         </form>
-
-        <Login />
       </div>
     </div>
   );
@@ -51,7 +91,10 @@ function SignupButton() {
 
 function Login() {
   return (
-    <button className="mt-3 self-start px-7 cursor-pointer text-white bg-blue-500 transition duration-300 py-3 rounded-md font-semibold hover:bg-[#0e57c2]">
+    <button
+      type="submit"
+      className="mt-3 self-start px-7 cursor-pointer text-white bg-blue-500 transition duration-300 py-3 rounded-md font-semibold hover:bg-[#0e57c2]"
+    >
       Log in
     </button>
   );

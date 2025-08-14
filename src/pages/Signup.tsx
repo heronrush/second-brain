@@ -1,9 +1,36 @@
-import type { ChangeEvent } from "react";
+import { useState, type ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { BrainIcon } from "../icons/BrainIcon";
+import axios from "axios";
+import { BACKEND_URL } from "../config";
 
 export default function Signup() {
   const navigate = useNavigate();
+
+  const [fullname, setFullname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // collects all the data from the form inputs and sends them to the backend for signup
+  async function sendSignupRequest() {
+    const response = await axios.post(`${BACKEND_URL}/api/v1/signup`, {
+      fullname: fullname,
+      email: email,
+      password: password,
+    });
+
+    if (response) {
+      alert("success");
+      console.log("success");
+
+      localStorage.setItem("token", response.data.token);
+
+      navigate("/dashboard");
+    } else {
+      alert("unsuccessful");
+      return;
+    }
+  }
 
   return (
     <div className="flex flex-col items-center h-screen bg-[#f9fafb]">
@@ -23,17 +50,39 @@ export default function Signup() {
         <p className="text-gray-600 mt-2">
           Create your account and start storing in your second brain
         </p>
-        <form action="" className="mt-10">
-          <LabelledInput label="Full name" placeholder="John doe" type="text" />
+        <form
+          action=""
+          onSubmit={(e) => {
+            e.preventDefault();
+            sendSignupRequest();
+          }}
+          className="mt-10"
+        >
           <LabelledInput
+            onChange={(e) => {
+              setFullname(e.target.value);
+            }}
+            label="Full name"
+            placeholder="John doe"
+            type="text"
+          />
+          <LabelledInput
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
             label="Email"
             placeholder="john@example.com"
             type="text"
           />
-          <LabelledInput label="Password" type="password" />
+          <LabelledInput
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            label="Password"
+            type="password"
+          />
+          <CreateAccount />
         </form>
-
-        <CreateAccount />
       </div>
     </div>
   );
@@ -56,7 +105,10 @@ function LoginButton() {
 
 function CreateAccount() {
   return (
-    <button className="mt-3 self-start px-7 cursor-pointer text-white bg-blue-500 transition duration-300 py-3 rounded-md font-semibold hover:bg-[#0e57c2]">
+    <button
+      type="submit"
+      className="mt-3 self-start px-7 cursor-pointer text-white bg-blue-500 transition duration-300 py-3 rounded-md font-semibold hover:bg-[#0e57c2]"
+    >
       Create account
     </button>
   );

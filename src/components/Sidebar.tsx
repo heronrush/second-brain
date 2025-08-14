@@ -13,7 +13,8 @@ import {
   videosTileAtom,
 } from "../store/atoms/atom";
 import { BrainIcon } from "../icons/BrainIcon";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { LogoutIcon } from "../icons/LogoutIcon";
 
 export default function Sidebar() {
   const [tweetsTile, setTweetsTile] = useAtom(tweetTileAtom);
@@ -21,6 +22,8 @@ export default function Sidebar() {
   const [documentsTile, setDocumentsTile] = useAtom(documentsTileAtom);
   const [linksTile, setLinksTile] = useAtom(linksTileAtom);
   const [tagsTile, setTagsTile] = useAtom(tagsTileAtom);
+
+  const navigate = useNavigate();
 
   return (
     <div className="w-64 border-gray-300 shadow-md border-r h-screen flex flex-col items-center fixed">
@@ -94,6 +97,19 @@ export default function Sidebar() {
           }}
           selected={tagsTile}
         />
+      </div>
+
+      <div className="flex items-center mt-30 ">
+        <button
+          onClick={() => {
+            localStorage.removeItem("token");
+
+            navigate("/");
+          }}
+          className="flex gap-2 items-center hover:text-gray-600 cursor-pointer transition duration-300"
+        >
+          <LogoutIcon /> <p className="font-semibold">Logout</p>
+        </button>
       </div>
     </div>
   );
