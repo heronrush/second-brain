@@ -58,6 +58,7 @@ function ContentContainer() {
         return (
           <Card
             key={content.id}
+            contentId={content.id}
             contentLink={content.link}
             title={content.title}
             contentType={content.type}

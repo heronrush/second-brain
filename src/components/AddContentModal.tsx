@@ -107,7 +107,7 @@ function ContentType() {
       <label className="font-semibold text-xl mb-5" htmlFor="">
         Content type
       </label>
-      <div className="flex gap-3 mt-3 py-1 justify-between">
+      <div className="flex gap-3 mt-3 py-1 items-center justify-between">
         <TwitterIcon
           className={`hover:text-[#37319e] size-7  cursor-pointer ${
             contentType === "TWEET" ? "text-[#37319e]" : ""

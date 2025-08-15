@@ -5,9 +5,14 @@ import { LinkIcon } from "../icons/LinkIcon";
 import { ShareIcon } from "../icons/ShareIcon";
 import { TwitterIcon } from "../icons/TwitterIcon";
 import { VideoIcon } from "../icons/VideoIcon";
+import axios from "axios";
+import { BACKEND_URL } from "../config";
+import { useAtom } from "jotai";
+import { userContentAtom } from "../store/atoms/contentAtom";
 
 type CardType = {
   // id?: string;
+  contentId: number;
   title?: string;
   description?: string;
   contentLink: string;
@@ -23,11 +28,14 @@ const contentTypeIcon = {
 };
 
 export default function Card({
+  contentId,
   title,
   description,
   contentLink,
   contentType,
 }: CardType) {
+  const [userContents, setUserContents] = useAtom(userContentAtom);
+
   return (
     <div className="max-w-96 p-8 pt-2 border border-gray-300 rounded-md shadow-sm hover:shadow-lg">
       {/* contains the top div, contains icons */}
@@ -35,7 +43,44 @@ export default function Card({
         <div>{contentType && contentTypeIcon[contentType]}</div>
         <div className="flex items-center gap-5">
           <ShareIcon className="hover:text-[#3e36c0] size-5" />
-          <DeleteIcon className="hover:text-red-500 size-5" />
+          <DeleteIcon
+            onClick={async () => {
+              try {
+                const response = await axios.delete(
+                  `${BACKEND_URL}/api/v1/content`,
+                  {
+                    data: {
+                      contentId,
+                      userId: localStorage.getItem("userId"),
+                    },
+                    headers: {
+                      Authorization: localStorage.getItem("token"),
+                    },
+                  }
+                );
+
+                if (response.status === 200) {
+                  const newContent = userContents?.filter(
+                    (content) => content.id !== contentId
+                  );
+                  setUserContents(newContent);
+                }
+
+                alert("content deleted");
+              } catch (err) {
+                if (axios.isAxiosError(err)) {
+                  if (err.response?.status === 403) {
+                    alert(
+                      "you're trying to delete something, which is not present"
+                    );
+                  } else {
+                    alert("some internal server error");
+                  }
+                }
+              }
+            }}
+            className="hover:text-red-500 size-5"
+          />
         </div>
       </div>
       <h1 className="text-2xl ml-3 mt-7 font-semibold text-gray-700">
@@ -82,6 +127,7 @@ function VideoPost({ videoLink }: { videoLink: string }) {
   );
 }
 
+// to get youtube embed from a url
 function getYouTubeEmbed(url: string) {
   // Extract the video ID
   const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/;
