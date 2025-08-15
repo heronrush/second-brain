@@ -11,7 +11,7 @@ import axios from "axios";
 import { BACKEND_URL } from "../config";
 
 export function AddContentModal() {
-  const showModal = useSetAtom(modalAtom);
+  const setShowModal = useSetAtom(modalAtom);
 
   // modal states
   const [title, setTitle] = useState("");
@@ -42,6 +42,7 @@ export function AddContentModal() {
     );
 
     if (sendRequest.status === 200) {
+      setShowModal(false);
       alert("content added");
     } else {
       alert("some server error");
@@ -54,7 +55,7 @@ export function AddContentModal() {
         <div className="flex justify-end m-3">
           <button
             onClick={() => {
-              showModal(false);
+              setShowModal(false);
             }}
           >
             <CrossIcon />

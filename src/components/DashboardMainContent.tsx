@@ -7,6 +7,7 @@ import { modalAtom } from "../store/atoms/atom";
 import { userContentAtom } from "../store/atoms/contentAtom";
 import { useEffect } from "react";
 import axios from "axios";
+import { FetchIcon } from "../icons/FetchIcon";
 
 export default function DashboardMainContent() {
   return (
@@ -21,29 +22,30 @@ function ContentContainer() {
   const [userContents, setUserContents] = useAtom(userContentAtom);
   const userId = localStorage.getItem("userId");
 
+  // gets the fresh content from the db
+  async function getContent() {
+    const response = await axios.get(
+      `http://localhost:3000/api/v1/content/${userId}`,
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      }
+    );
+
+    if (response) {
+      setUserContents(response.data.contents);
+    } else {
+      setUserContents([]);
+    }
+  }
+
   // useEffect
   useEffect(() => {
-    async function getContent() {
-      const response = await axios.get(
-        `http://localhost:3000/api/v1/content/${userId}`,
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      );
-
-      if (response) {
-        setUserContents(response.data.contents);
-      } else {
-        setUserContents([]);
-      }
-    }
-
     getContent();
   }, []);
 
-  //
+  // return this jsx when the user has no content added to the db
   if (userContents?.length === 0) {
     return (
       <div className="mt-20 px-10  pb-20 flex flex-wrap gap-10 justify-center ">
@@ -52,20 +54,32 @@ function ContentContainer() {
     );
   }
 
+  // return this when the user has at least 1 content
   return (
-    <div className="mt-20 px-10  pb-20 flex flex-wrap gap-10 ">
-      {userContents?.map((content) => {
-        return (
-          <Card
-            key={content.id}
-            contentId={content.id}
-            contentLink={content.link}
-            title={content.title}
-            contentType={content.type}
-            description={content.description}
-          />
-        );
-      })}
+    <div>
+      <div className="my-3 pl-30 flex">
+        <Button
+          variant="secondary"
+          size="md"
+          text="Refetch contents"
+          onClick={getContent}
+          startIcon={<FetchIcon />}
+        />
+      </div>
+      <div className="mt-20 px-10  pb-20 flex flex-wrap gap-10 ">
+        {userContents?.map((content) => {
+          return (
+            <Card
+              key={content.id}
+              contentId={content.id}
+              contentLink={content.link}
+              title={content.title}
+              contentType={content.type}
+              description={content.description}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }
