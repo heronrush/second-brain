@@ -15,6 +15,7 @@ export function TwitterFilledIcon({
       stroke="#000000"
       stroke-width="0.00032"
       className={`size-15 ${className}`}
+      onClick={onClick}
     >
       <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
       <g
