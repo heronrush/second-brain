@@ -1,3 +1,4 @@
+import { TwitterTweetEmbed } from "react-twitter-embed";
 import { DeleteIcon } from "../icons/DeleteIcon";
 import { DocumentIcon } from "../icons/DocumentIcon";
 import { LinkIcon } from "../icons/LinkIcon";
@@ -37,54 +38,55 @@ export default function Card({
           <DeleteIcon className="hover:text-red-500 size-5" />
         </div>
       </div>
-      <h1 className="text-2xl ml-3 mt-2 text-gray-700">{title}</h1>
+      <h1 className="text-2xl ml-3 mt-7 font-semibold text-gray-700">
+        Title: {title}
+      </h1>
       <div className="mt-7 ">
         {contentType === "TWEET" && <TwitterPost twitterLink={contentLink} />}{" "}
         {contentType === "VIDEO" && <VideoPost videoLink={contentLink} />}
       </div>
 
-      <p className="mt-3">{contentLink}</p>
-
       {/* description */}
-      <p className="mt-3">{description}</p>
+      {description && (
+        <p className="mt-3">
+          <span className="font-bold text-gray-600">Description:</span> <br />
+          {description}
+        </p>
+      )}
     </div>
   );
 }
 
 function TwitterPost({ twitterLink }: { twitterLink: string }) {
-  return (
-    <>
-      <blockquote className="twitter-tweet">
-        <a href={twitterLink}>August 11, 2025</a>
-      </blockquote>{" "}
-      <script async src="https://platform.twitter.com/widgets.js"></script>
-    </>
-  );
+  // Extract tweet ID
+  const match = twitterLink.match(/status\/(\d+)/);
+  if (!match) return <p>Invalid tweet URL</p>;
+  const tweetId = match[1];
+
+  return <TwitterTweetEmbed tweetId={tweetId} />;
 }
 
 function VideoPost({ videoLink }: { videoLink: string }) {
-  const videoId = getVideoId(videoLink);
+  const embedUrl = getYouTubeEmbed(videoLink);
+
+  if (!embedUrl) return <p>Invalid video URL</p>;
 
   return (
-    <div>
-      <a href={`youtube.com/watch?v=${videoId}`} target="_blank">
-        <iframe src={`https://www.youtube.com/embed/${videoId}`}></iframe>
-      </a>
-    </div>
+    <iframe
+      src={embedUrl}
+      title="YouTube video player"
+      frameBorder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+    />
   );
 }
 
-function getVideoId(link: string) {
-  const dotComIncludes = link.includes(".com/");
-  if (dotComIncludes) {
-    const twoString = link.split("v=");
-    const videoId = twoString[1].split("&");
-    return videoId[0];
-  } else {
-    const twoStrings = link.split("youtu.be/");
-    const againSplit = twoStrings[1].split("?si=");
-
-    const videoId = againSplit[0];
-    return videoId;
-  }
+function getYouTubeEmbed(url: string) {
+  // Extract the video ID
+  const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/;
+  const match = url.match(regex);
+  if (!match) return null;
+  const videoId = match[1];
+  return `https://www.youtube.com/embed/${videoId}`;
 }
