@@ -9,6 +9,8 @@ import { useEffect } from "react";
 import axios from "axios";
 import { FetchIcon } from "../icons/FetchIcon";
 
+const BACKEND_URL = import.meta.env.VITE_API_URL;
+
 export default function DashboardMainContent() {
   return (
     <div className="ml-64 bg-[#f9fbfc] h-full pb-50">
@@ -25,7 +27,7 @@ function ContentContainer() {
   // gets the fresh content from the db
   async function getContent() {
     const response = await axios.get(
-      `http://localhost:3000/api/v1/content/${userId}`,
+      `${BACKEND_URL}/api/v1/content/${userId}`,
       {
         headers: {
           Authorization: localStorage.getItem("token"),
