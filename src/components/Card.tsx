@@ -6,9 +6,10 @@ import { ShareIcon } from "../icons/ShareIcon";
 import { TwitterIcon } from "../icons/TwitterIcon";
 import { VideoIcon } from "../icons/VideoIcon";
 import axios from "axios";
-import { BACKEND_URL } from "../config";
 import { useAtom } from "jotai";
 import { userContentAtom } from "../store/atoms/contentAtom";
+
+const BACKEND_URL = import.meta.env.VITE_API_URL;
 
 type CardType = {
   // id?: string;

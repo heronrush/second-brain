@@ -8,7 +8,8 @@ import { Button } from "./Button";
 import { contentTypeAtom, modalAtom } from "../store/atoms/atom";
 import { useState, type ChangeEvent } from "react";
 import axios from "axios";
-import { BACKEND_URL } from "../config";
+
+const BACKEND_URL = import.meta.env.VITE_API_URL;
 
 export function AddContentModal() {
   const setShowModal = useSetAtom(modalAtom);
