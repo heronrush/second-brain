@@ -1,4 +1,3 @@
-import { TwitterTweetEmbed } from "react-twitter-embed";
 import { DeleteIcon } from "../icons/DeleteIcon";
 import { DocumentIcon } from "../icons/DocumentIcon";
 import { LinkIcon } from "../icons/LinkIcon";
@@ -8,6 +7,7 @@ import { VideoIcon } from "../icons/VideoIcon";
 import axios from "axios";
 import { useAtom } from "jotai";
 import { userContentAtom } from "../store/atoms/contentAtom";
+import { Tweet } from "react-twitter-widgets";
 
 const BACKEND_URL = import.meta.env.VITE_API_URL;
 
@@ -104,12 +104,12 @@ export default function Card({
 }
 
 function TwitterPost({ twitterLink }: { twitterLink: string }) {
-  // Extract tweet ID
+  // Extract tweet ID from URL
   const match = twitterLink.match(/status\/(\d+)/);
   if (!match) return <p>Invalid tweet URL</p>;
   const tweetId = match[1];
 
-  return <TwitterTweetEmbed tweetId={tweetId} />;
+  return <Tweet tweetId={tweetId} />;
 }
 
 function VideoPost({ videoLink }: { videoLink: string }) {

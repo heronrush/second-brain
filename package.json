@@ -17,6 +17,7 @@
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.8.0",
     "react-twitter-embed": "^4.0.4",
+    "react-twitter-widgets": "^1.11.0",
     "tailwindcss": "^4.1.11"
   },
   "devDependencies": {
