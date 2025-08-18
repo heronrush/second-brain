@@ -21,8 +21,11 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
+    "@types/axios": "^0.14.4",
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.1.7",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/scriptjs": "^0.0.5",
     "@vitejs/plugin-react": "^4.7.0",
     "eslint": "^9.32.0",
     "eslint-plugin-react-hooks": "^5.2.0",
