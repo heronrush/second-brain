@@ -2,7 +2,8 @@ import { useState, type ChangeEvent } from "react";
 import { BrainIcon } from "../icons/BrainIcon";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { BACKEND_URL } from "../config";
+
+const BACKEND_URL = import.meta.env.VITE_API_URL;
 
 export default function Signin() {
   const [email, setEmail] = useState("");

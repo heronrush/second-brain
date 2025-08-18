@@ -2,9 +2,10 @@ import { useState, type ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { BrainIcon } from "../icons/BrainIcon";
 import axios from "axios";
-import { BACKEND_URL } from "../config";
 import { useSetAtom } from "jotai";
 import { userIdAtom } from "../store/atoms/contentAtom";
+
+const BACKEND_URL = import.meta.env.VITE_API_URL;
 
 export default function Signup() {
   const navigate = useNavigate();
