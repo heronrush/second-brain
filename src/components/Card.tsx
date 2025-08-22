@@ -41,7 +41,7 @@ export default function Card({
     <div className="max-w-96 p-8 pt-2 border border-gray-300 rounded-md shadow-sm hover:shadow-lg">
       {/* contains the top div, contains icons */}
       <div className="flex items-center justify-between">
-        <div>{contentType && contentTypeIcon[contentType]}</div>
+        <div>{contentTypeIcon[contentType!]}</div>
         <div className="flex items-center gap-5">
           <ShareIcon className="hover:text-[#3e36c0] size-5" />
           <DeleteIcon
@@ -84,19 +84,34 @@ export default function Card({
           />
         </div>
       </div>
-      <h1 className="text-2xl ml-3 mt-7 font-semibold text-gray-700">
-        Title: {title}
-      </h1>
+
+      {title && (
+        <h1 className="text-2xl  ml-3 mt-7 font-semibold text-gray-700">
+          Title: {title}
+        </h1>
+      )}
+
+      {/* first checks which type of content the user had preferred and according to that
+      from db gets the respective link and according to that renders respective component */}
       <div className="mt-7 ">
-        {contentType === "TWEET" && <TwitterPost twitterLink={contentLink} />}{" "}
-        {contentType === "VIDEO" && <VideoPost videoLink={contentLink} />}
+        {contentLink.includes("x.com") ? (
+          <TwitterPost twitterLink={contentLink} />
+        ) : (
+          <VideoPost videoLink={contentLink} />
+        )}{" "}
+        {/* {contentType === "VIDEO" && <VideoPost videoLink={contentLink} />} */}
+        {contentLink.includes("youtube") ? (
+          <VideoPost videoLink={contentLink} />
+        ) : (
+          <TwitterPost twitterLink={contentLink} />
+        )}
       </div>
 
       {/* description */}
       {description && (
-        <p className="mt-3">
-          <span className="font-bold text-gray-600">Description:</span> <br />
-          {description}
+        <p className="mt-3 ">
+          <span className="font-bold  text-gray-600">Description:</span> <br />
+          <span className="italic"> {description}</span>
         </p>
       )}
     </div>
@@ -106,7 +121,7 @@ export default function Card({
 function TwitterPost({ twitterLink }: { twitterLink: string }) {
   // Extract tweet ID from URL
   const match = twitterLink.match(/status\/(\d+)/);
-  if (!match) return <p>Invalid tweet URL</p>;
+  if (!match) return;
   const tweetId = match[1];
 
   return <Tweet tweetId={tweetId} />;
