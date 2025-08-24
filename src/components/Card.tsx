@@ -38,7 +38,7 @@ export default function Card({
   const [userContents, setUserContents] = useAtom(userContentAtom);
 
   return (
-    <div className="max-w-96 p-8 pt-2 border border-gray-300 rounded-md shadow-sm hover:shadow-lg">
+    <div className="max-w-96 p-8 min-h-auto pt-2 border border-gray-300 rounded-md shadow-sm hover:shadow-lg">
       {/* contains the top div, contains icons */}
       <div className="flex items-center justify-between">
         <div>{contentTypeIcon[contentType!]}</div>
@@ -91,19 +91,20 @@ export default function Card({
         </h1>
       )}
 
-      {/* first checks which type of content the user had preferred and according to that
+      {/* first checks which content type the user had preferred and according to that
       from db gets the respective link and according to that renders respective component */}
       <div className="mt-7 ">
-        {contentLink.includes("x.com") ? (
+        {/* if the content links contains 'x.com' then it renders twitter post regardless of the icon selected */}
+        {contentLink.includes("x.com") && (
           <TwitterPost twitterLink={contentLink} />
-        ) : (
-          <VideoPost videoLink={contentLink} />
-        )}{" "}
+        )}
         {/* {contentType === "VIDEO" && <VideoPost videoLink={contentLink} />} */}
-        {contentLink.includes("youtube") ? (
+        {contentLink.includes("youtube") && (
           <VideoPost videoLink={contentLink} />
-        ) : (
-          <TwitterPost twitterLink={contentLink} />
+        )}
+        {/* for rendering contents which are documents or links */}
+        {(contentType === "VIDEO" || contentType === "LINK") && (
+          <DocumentOrLinkPost link={contentLink} />
         )}
       </div>
 
@@ -115,6 +116,17 @@ export default function Card({
         </p>
       )}
     </div>
+  );
+}
+
+// document post
+function DocumentOrLinkPost({ link }: { link: string }) {
+  return (
+    <p>
+      <a className="hover:text-sky-300" target="_blank" href={link}>
+        {link}
+      </a>
+    </p>
   );
 }
 
