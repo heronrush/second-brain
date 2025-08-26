@@ -16,5 +16,5 @@ export const tagsTileAtom = atom(false);
 export const modalAtom = atom(false);
 
 export const contentTypeAtom = atom<"TWEET" | "VIDEO" | "DOCUMENT" | "LINK">(
-  "TWEET"
+  "TWEET",
 );

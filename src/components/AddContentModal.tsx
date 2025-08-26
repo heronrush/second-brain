@@ -1,30 +1,30 @@
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { CrossIcon } from "../icons/CrossIcon";
-import { DocumentIcon } from "../icons/DocumentIcon";
-import { LinkIcon } from "../icons/LinkIcon";
-import { TwitterIcon } from "../icons/TwitterIcon";
-import { VideoIcon } from "../icons/VideoIcon";
-import { Button } from "./Button";
-import { contentTypeAtom, modalAtom } from "../store/atoms/atom";
-import { useState, type ChangeEvent } from "react";
-import axios from "axios";
+import { useAtom, useAtomValue, useSetAtom } from "jotai"
+import { CrossIcon } from "../icons/CrossIcon"
+import { DocumentIcon } from "../icons/DocumentIcon"
+import { LinkIcon } from "../icons/LinkIcon"
+import { TwitterIcon } from "../icons/TwitterIcon"
+import { VideoIcon } from "../icons/VideoIcon"
+import { Button } from "./Button"
+import { contentTypeAtom, modalAtom } from "../store/atoms/atom"
+import { useState, type ChangeEvent } from "react"
+import axios from "axios"
 
-const BACKEND_URL = import.meta.env.VITE_API_URL;
+const BACKEND_URL = import.meta.env.VITE_API_URL
 
 export function AddContentModal() {
-  const setShowModal = useSetAtom(modalAtom);
+  const setShowModal = useSetAtom(modalAtom)
 
   // modal states
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [contentLink, setContentLink] = useState("");
+  const [title, setTitle] = useState("")
+  const [description, setDescription] = useState("")
+  const [contentLink, setContentLink] = useState("")
 
-  const contentType = useAtomValue(contentTypeAtom);
+  const contentType = useAtomValue(contentTypeAtom)
 
   // send request to add new content
   async function addContentRequest() {
-    const localStorageUserId = localStorage.getItem("userId") as string;
-    const userId = parseInt(localStorageUserId);
+    const localStorageUserId = localStorage.getItem("userId") as string
+    const userId = parseInt(localStorageUserId)
 
     const sendRequest = await axios.post(
       `${BACKEND_URL}/api/v1/content`,
@@ -40,23 +40,23 @@ export function AddContentModal() {
           Authorization: localStorage.getItem("token"),
         },
       }
-    );
+    )
 
     if (sendRequest.status === 200) {
-      setShowModal(false);
-      alert("content added");
+      setShowModal(false)
+      alert("content added")
     } else {
-      alert("some server error");
+      alert("some server error")
     }
   }
 
   return (
-    <div className="h-full w-full bg-[rgba(0,0,0,0.5)] fixed top-0 left-0  flex justify-center items-center">
+    <div className="h-full w-full bg-[rgba(212,211,211,0.5)] fixed top-0 left-0  flex justify-center items-center">
       <div className=" w-[450px] pb-10 rounded-lg bg-white text-black shadow-md z-10 ">
         <div className="flex justify-end m-3">
           <button
             onClick={() => {
-              setShowModal(false);
+              setShowModal(false)
             }}
           >
             <CrossIcon />
@@ -65,14 +65,14 @@ export function AddContentModal() {
         <div className="flex flex-col items-center py-3 pt-1">
           <LabelledInput
             onChange={(e) => {
-              setTitle(e.target.value);
+              setTitle(e.target.value)
             }}
             label="Title"
             placeholder="Elon Musk, Tesla, Tweet"
           />
           <LabelledInput
             onChange={(e) => {
-              setDescription(e.target.value);
+              setDescription(e.target.value)
             }}
             label="Description"
             placeholder="Elon musk is talking something about tesla"
@@ -91,18 +91,18 @@ export function AddContentModal() {
             variant="secondary"
             text="Add content"
             onClick={() => {
-              addContentRequest();
+              addContentRequest()
             }}
             className="w-80 mt-4 flex justify-center"
           />
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 function ContentType() {
-  const [contentType, setContentType] = useAtom(contentTypeAtom);
+  const [contentType, setContentType] = useAtom(contentTypeAtom)
 
   return (
     <div className="w-80 mb-3">
@@ -115,7 +115,7 @@ function ContentType() {
             contentType === "TWEET" ? "text-[#37319e]" : ""
           }`}
           onClick={() => {
-            setContentType("TWEET");
+            setContentType("TWEET")
           }}
         />
         <VideoIcon
@@ -123,7 +123,7 @@ function ContentType() {
             contentType === "VIDEO" ? "text-[#37319e]" : ""
           }`}
           onClick={() => {
-            setContentType("VIDEO");
+            setContentType("VIDEO")
           }}
         />
         <DocumentIcon
@@ -131,7 +131,7 @@ function ContentType() {
             contentType === "DOCUMENT" ? "text-[#37319e]" : ""
           }`}
           onClick={() => {
-            setContentType("DOCUMENT");
+            setContentType("DOCUMENT")
           }}
         />
         <LinkIcon
@@ -139,20 +139,20 @@ function ContentType() {
             contentType === "LINK" ? "text-[#37319e]" : ""
           }`}
           onClick={() => {
-            setContentType("LINK");
+            setContentType("LINK")
           }}
         />
       </div>
     </div>
-  );
+  )
 }
 
 type LabelledInputType = {
-  label: string;
-  placeholder: string;
-  required?: boolean;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-};
+  label: string
+  placeholder: string
+  required?: boolean
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void
+}
 
 function LabelledInput({
   label,
@@ -174,5 +174,5 @@ function LabelledInput({
         required={required}
       />
     </div>
-  );
+  )
 }

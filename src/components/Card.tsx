@@ -1,24 +1,25 @@
-import { DeleteIcon } from "../icons/DeleteIcon";
-import { DocumentIcon } from "../icons/DocumentIcon";
-import { LinkIcon } from "../icons/LinkIcon";
-import { ShareIcon } from "../icons/ShareIcon";
-import { TwitterIcon } from "../icons/TwitterIcon";
-import { VideoIcon } from "../icons/VideoIcon";
-import axios from "axios";
-import { useAtom } from "jotai";
-import { userContentAtom } from "../store/atoms/contentAtom";
-import { Tweet } from "react-twitter-widgets";
+import { DeleteIcon } from "../icons/DeleteIcon"
+import { DocumentIcon } from "../icons/DocumentIcon"
+import { LinkIcon } from "../icons/LinkIcon"
+import { ShareIcon } from "../icons/ShareIcon"
+import { TwitterIcon } from "../icons/TwitterIcon"
+import { VideoIcon } from "../icons/VideoIcon"
+import axios from "axios"
+import { useAtom } from "jotai"
+import { userContentAtom } from "../store/atoms/contentAtom"
+import { Tweet } from "react-twitter-widgets"
+import { Tag } from "./Tag"
 
-const BACKEND_URL = import.meta.env.VITE_API_URL;
+const BACKEND_URL = import.meta.env.VITE_API_URL
 
 type CardType = {
   // id?: string;
-  contentId: number;
-  title?: string;
-  description?: string;
-  contentLink: string;
-  contentType?: "TWEET" | "DOCUMENT" | "VIDEO" | "LINK";
-};
+  contentId: number
+  title?: string
+  description?: string
+  contentLink: string
+  contentType?: "TWEET" | "DOCUMENT" | "VIDEO" | "LINK"
+}
 
 const contentTypeIcon = {
   TWEET: <TwitterIcon />,
@@ -26,7 +27,7 @@ const contentTypeIcon = {
   DOCUMENT: <DocumentIcon />,
 
   LINK: <LinkIcon />,
-};
+}
 
 export default function Card({
   contentId,
@@ -35,7 +36,7 @@ export default function Card({
   contentLink,
   contentType,
 }: CardType) {
-  const [userContents, setUserContents] = useAtom(userContentAtom);
+  const [userContents, setUserContents] = useAtom(userContentAtom)
 
   return (
     <div className="max-w-96 p-8 min-h-auto pt-2 border border-gray-300 rounded-md shadow-sm hover:shadow-lg">
@@ -58,24 +59,22 @@ export default function Card({
                       Authorization: localStorage.getItem("token"),
                     },
                   }
-                );
+                )
 
                 if (response.status === 200) {
                   const newContent = userContents?.filter(
                     (content) => content.id !== contentId
-                  );
-                  setUserContents(newContent);
+                  )
+                  setUserContents(newContent)
                 }
-
-                alert("content deleted");
               } catch (err) {
                 if (axios.isAxiosError(err)) {
                   if (err.response?.status === 403) {
                     alert(
                       "you're trying to delete something, which is not present"
-                    );
+                    )
                   } else {
-                    alert("some internal server error");
+                    alert("some internal server error")
                   }
                 }
               }
@@ -103,7 +102,7 @@ export default function Card({
           <VideoPost videoLink={contentLink} />
         )}
         {/* for rendering contents which are documents or links */}
-        {(contentType === "VIDEO" || contentType === "LINK") && (
+        {(contentType === "DOCUMENT" || contentType === "LINK") && (
           <DocumentOrLinkPost link={contentLink} />
         )}
       </div>
@@ -115,8 +114,13 @@ export default function Card({
           <span className="italic"> {description}</span>
         </p>
       )}
+
+      {/* tag section, if the user has provided tags then the tags will be rendered here */}
+      <p className="mt-2">
+        <Tag name="video" />
+      </p>
     </div>
-  );
+  )
 }
 
 // document post
@@ -127,22 +131,22 @@ function DocumentOrLinkPost({ link }: { link: string }) {
         {link}
       </a>
     </p>
-  );
+  )
 }
 
 function TwitterPost({ twitterLink }: { twitterLink: string }) {
   // Extract tweet ID from URL
-  const match = twitterLink.match(/status\/(\d+)/);
-  if (!match) return;
-  const tweetId = match[1];
+  const match = twitterLink.match(/status\/(\d+)/)
+  if (!match) return
+  const tweetId = match[1]
 
-  return <Tweet tweetId={tweetId} />;
+  return <Tweet tweetId={tweetId} />
 }
 
 function VideoPost({ videoLink }: { videoLink: string }) {
-  const embedUrl = getYouTubeEmbed(videoLink);
+  const embedUrl = getYouTubeEmbed(videoLink)
 
-  if (!embedUrl) return <p>Invalid video URL</p>;
+  if (!embedUrl) return <p>Invalid video URL</p>
 
   return (
     <iframe
@@ -152,15 +156,15 @@ function VideoPost({ videoLink }: { videoLink: string }) {
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowFullScreen
     />
-  );
+  )
 }
 
 // to get youtube embed from a url
 function getYouTubeEmbed(url: string) {
   // Extract the video ID
-  const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/;
-  const match = url.match(regex);
-  if (!match) return null;
-  const videoId = match[1];
-  return `https://www.youtube.com/embed/${videoId}`;
+  const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/
+  const match = url.match(regex)
+  if (!match) return null
+  const videoId = match[1]
+  return `https://www.youtube.com/embed/${videoId}`
 }
