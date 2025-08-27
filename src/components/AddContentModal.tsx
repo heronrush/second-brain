@@ -51,9 +51,11 @@ export function AddContentModal() {
   }
 
   return (
-    <div className="h-full w-full bg-[rgba(212,211,211,0.5)] fixed top-0 left-0  flex justify-center items-center">
-      <div className=" w-[450px] pb-10 rounded-lg bg-white text-black shadow-md z-10 ">
-        <div className="flex justify-end m-3">
+    <div className="fixed top-0 left-0 flex h-full w-full items-center justify-center bg-[rgba(212,211,211,0.5)]">
+      {/* centered, content creation modal */}
+      <div className="z-10 w-2/3 rounded-lg border-gray-300 bg-white pb-10 text-black shadow-md">
+        {/* top right button to close the modal */}
+        <div className="m-3 flex justify-end">
           <button
             onClick={() => {
               setShowModal(false)
@@ -62,7 +64,9 @@ export function AddContentModal() {
             <CrossIcon />
           </button>
         </div>
-        <div className="flex flex-col items-center py-3 pt-1">
+
+        {/* everything else after the top right button */}
+        <div className="flex flex-col items-center justify-center py-3 pt-1">
           <LabelledInput
             onChange={(e) => {
               setTitle(e.target.value)
@@ -93,7 +97,7 @@ export function AddContentModal() {
             onClick={() => {
               addContentRequest()
             }}
-            className="w-80 mt-4 flex justify-center"
+            className="mt-4 flex w-80 justify-center"
           />
         </div>
       </div>
@@ -105,13 +109,13 @@ function ContentType() {
   const [contentType, setContentType] = useAtom(contentTypeAtom)
 
   return (
-    <div className="w-80 mb-3">
-      <label className="font-semibold text-xl mb-5" htmlFor="">
+    <div className="mb-3 w-80">
+      <label className="mb-5 text-xl font-semibold" htmlFor="">
         Content type
       </label>
-      <div className="flex gap-3 mt-3 py-1 items-center justify-between">
+      <div className="mt-3 flex items-center justify-between gap-3 py-1">
         <TwitterIcon
-          className={`hover:text-[#37319e] size-7  cursor-pointer ${
+          className={`size-7 cursor-pointer hover:text-[#37319e] ${
             contentType === "TWEET" ? "text-[#37319e]" : ""
           }`}
           onClick={() => {
@@ -119,7 +123,7 @@ function ContentType() {
           }}
         />
         <VideoIcon
-          className={`hover:text-[#37319e] size-7  cursor-pointer ${
+          className={`size-7 cursor-pointer hover:text-[#37319e] ${
             contentType === "VIDEO" ? "text-[#37319e]" : ""
           }`}
           onClick={() => {
@@ -127,7 +131,7 @@ function ContentType() {
           }}
         />
         <DocumentIcon
-          className={`hover:text-[#37319e] size-7  cursor-pointer ${
+          className={`size-7 cursor-pointer hover:text-[#37319e] ${
             contentType === "DOCUMENT" ? "text-[#37319e]" : ""
           }`}
           onClick={() => {
@@ -135,7 +139,7 @@ function ContentType() {
           }}
         />
         <LinkIcon
-          className={`hover:text-[#37319e] size-7  cursor-pointer ${
+          className={`size-7 cursor-pointer hover:text-[#37319e] ${
             contentType === "LINK" ? "text-[#37319e]" : ""
           }`}
           onClick={() => {
@@ -161,15 +165,15 @@ function LabelledInput({
   onChange,
 }: LabelledInputType) {
   return (
-    <div className="my-3 w-80 ">
-      <label className="font-semibold text-xl" htmlFor="">
+    <div className="my-3 w-2/3">
+      <label className="text-xl font-semibold" htmlFor="">
         {label}
       </label>
       <br />
       <input
         onChange={onChange}
         type="text"
-        className="border w-full mt-2 border-gray-300 outline-none px-2 py-3 rounded-sm"
+        className="mt-2 w-full rounded-sm border border-gray-300 px-2 py-3 outline-none"
         placeholder={placeholder}
         required={required}
       />
