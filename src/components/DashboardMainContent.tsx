@@ -13,7 +13,7 @@ const BACKEND_URL = import.meta.env.VITE_API_URL
 
 export default function DashboardMainContent() {
   return (
-    <div className="ml-64 bg-[#f9fbfc] h-full pb-50">
+    <div className="ml-64 h-full bg-[#f9fbfc] pb-50">
       <Topbar />
       <ContentContainer />
     </div>
@@ -50,7 +50,7 @@ function ContentContainer() {
   // return this jsx when the user has no content added to the db
   if (userContents?.length === 0) {
     return (
-      <div className="mt-20 px-10  pb-20 flex flex-wrap gap-10 justify-center ">
+      <div className="mt-20 flex flex-wrap justify-center gap-10 px-10 pb-20">
         <h1 className="text-3xl">No contents added yet.</h1>
       </div>
     )
@@ -59,16 +59,26 @@ function ContentContainer() {
   // return this when the user has at least 1 content
   return (
     <div>
-      <div className="my-3 pl-30 flex">
-        <Button
-          variant="secondary"
-          size="md"
-          text="Refetch contents"
-          onClick={getContent}
-          startIcon={<FetchIcon />}
-        />
-      </div>
-      <div className="mt-20 px-10  pb-20 flex flex-wrap gap-10 ">
+      {/* if there is no contents of the user then don't show the fetch button */}
+      {userContents && (
+        <div className="my-3 flex pl-30">
+          <Button
+            variant="secondary"
+            size="md"
+            text="Refetch contents"
+            onClick={getContent}
+            startIcon={<FetchIcon />}
+          />
+        </div>
+      )}
+
+      {!userContents && (
+        <div className="mt-20 flex flex-wrap justify-center gap-10 px-10 pb-20">
+          <h1 className="text-3xl">No contents added yet.</h1>
+        </div>
+      )}
+
+      <div className="mt-20 flex flex-wrap gap-10 px-10 pb-20">
         {userContents?.map((content) => {
           return (
             <Card
@@ -90,7 +100,7 @@ function Topbar() {
   const openModal = useSetAtom(modalAtom)
 
   return (
-    <div className="flex justify-end pr-10 pt-5">
+    <div className="flex justify-end pt-5 pr-10">
       <div className="flex gap-6">
         <Button
           variant="secondary"
