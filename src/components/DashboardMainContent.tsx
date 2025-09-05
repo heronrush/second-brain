@@ -8,14 +8,24 @@ import { userContentAtom } from "../store/atoms/contentAtom"
 import { useEffect } from "react"
 import axios from "axios"
 import { FetchIcon } from "../icons/FetchIcon"
+import { AddContentModal } from "./AddContentModal"
 
 const BACKEND_URL = import.meta.env.VITE_API_URL
 
 export default function DashboardMainContent() {
+  const [open, setOpen] = useAtom(modalAtom)
+
   return (
     <div className="ml-64 h-full bg-[#f9fbfc] pb-50">
       <Topbar />
       <ContentContainer />
+
+      <AddContentModal
+        open={open}
+        onClose={() => {
+          setOpen(false)
+        }}
+      />
     </div>
   )
 }

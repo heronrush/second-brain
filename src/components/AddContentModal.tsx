@@ -6,12 +6,19 @@ import { TwitterIcon } from "../icons/TwitterIcon"
 import { VideoIcon } from "../icons/VideoIcon"
 import { Button } from "./Button"
 import { contentTypeAtom, modalAtom } from "../store/atoms/atom"
-import { useState, type ChangeEvent } from "react"
+import { useState } from "react"
 import axios from "axios"
+import { ContentInput } from "./Input"
 
 const BACKEND_URL = import.meta.env.VITE_API_URL
 
-export function AddContentModal() {
+type ModalType = {
+  open: boolean
+  onClose: () => void
+}
+
+// new modal
+export function AddContentModal({ open, onClose }: ModalType) {
   const setShowModal = useSetAtom(modalAtom)
 
   // modal states
@@ -51,40 +58,51 @@ export function AddContentModal() {
   }
 
   return (
-    <div className="fixed top-0 left-0 flex h-full w-full items-center justify-center bg-[rgba(212,211,211,0.5)]">
-      {/* centered, content creation modal */}
-      <div className="z-10 w-2/3 rounded-lg border-gray-300 bg-white pb-10 text-black shadow-md">
-        {/* top right button to close the modal */}
-        <div className="m-3 flex justify-end">
-          <button
-            onClick={() => {
-              setShowModal(false)
-            }}
-          >
-            <CrossIcon />
-          </button>
-        </div>
+    // backdrop
+    <div
+      onClick={onClose}
+      className={`fixed inset-0 flex items-center justify-center transition-colors ${open ? "visible bg-black/20" : "invisible"}`}
+    >
+      {/* actual modal */}
+
+      <div
+        onClick={(e) => {
+          e.stopPropagation()
+        }}
+        className={`w-[60%] rounded-xl bg-white p-6 shadow transition-all ${open ? "scale-100 opacity-100" : "scale-125 opacity-0"} `}
+      >
+        {/* close button at the top right corner */}
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-2 rounded-lg bg-white p-1 text-gray-400"
+        >
+          <CrossIcon />
+        </button>
 
         {/* everything else after the top right button */}
         <div className="flex flex-col items-center justify-center py-3 pt-1">
-          <LabelledInput
+          <ContentInput
+            label="Title"
+            placeholder="Elon Mus, Tesla, tweet"
             onChange={(e) => {
               setTitle(e.target.value)
             }}
-            label="Title"
-            placeholder="Elon Musk, Tesla, Tweet"
           />
-          <LabelledInput
+
+          <ContentInput
+            label="Description"
+            placeholder="Elon Musk is talking about tesla"
             onChange={(e) => {
               setDescription(e.target.value)
             }}
-            label="Description"
-            placeholder="Elon musk is talking something about tesla"
           />
-          <LabelledInput
-            onChange={(e) => setContentLink(e.target.value)}
+
+          <ContentInput
             label="Content Link"
             placeholder="https://..."
+            onChange={(e) => {
+              setContentLink(e.target.value)
+            }}
           />
 
           <ContentType />
@@ -146,30 +164,6 @@ function ContentType() {
           }}
         />
       </div>
-    </div>
-  )
-}
-
-type LabelledInputType = {
-  label: string
-  placeholder: string
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void
-}
-
-function LabelledInput({ label, placeholder, onChange }: LabelledInputType) {
-  return (
-    <div className="my-3 w-2/3">
-      <label className="text-xl font-semibold" htmlFor="">
-        {label}
-      </label>
-      <br />
-      <input
-        onChange={onChange}
-        type="text"
-        className="mt-2 w-full rounded-sm border border-gray-300 px-2 py-3 outline-none"
-        placeholder={placeholder}
-        required
-      />
     </div>
   )
 }
