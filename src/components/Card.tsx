@@ -39,12 +39,12 @@ export default function Card({
   const [userContents, setUserContents] = useAtom(userContentAtom)
 
   return (
-    <div className="max-w-96 p-8 min-h-auto pt-2 border border-gray-300 rounded-md shadow-sm hover:shadow-lg">
+    <div className="min-h-auto max-w-96 rounded-md border border-gray-300 p-8 pt-2 shadow-sm hover:shadow-lg">
       {/* contains the top div, contains icons */}
       <div className="flex items-center justify-between">
         <div>{contentTypeIcon[contentType!]}</div>
         <div className="flex items-center gap-5">
-          <ShareIcon className="hover:text-[#3e36c0] size-5" />
+          <ShareIcon className="size-5 hover:text-[#3e36c0]" />
           <DeleteIcon
             onClick={async () => {
               try {
@@ -79,20 +79,14 @@ export default function Card({
                 }
               }
             }}
-            className="hover:text-red-500 size-5"
+            className="size-5 hover:text-red-500"
           />
         </div>
       </div>
 
-      {title && (
-        <h1 className="text-2xl  ml-3 mt-7 font-semibold text-gray-700">
-          Title: {title}
-        </h1>
-      )}
-
       {/* first checks which content type the user had preferred and according to that
       from db gets the respective link and according to that renders respective component */}
-      <div className="mt-7 ">
+      <div className="mt-7">
         {/* if the content links contains 'x.com' then it renders twitter post regardless of the icon selected */}
         {contentLink.includes("x.com") && (
           <TwitterPost twitterLink={contentLink} />
@@ -107,16 +101,23 @@ export default function Card({
         )}
       </div>
 
+      {title && (
+        <p className="mt-5">
+          <span className="font-bold text-gray-700">Title:</span> <br />
+          <span>{title}</span>
+        </p>
+      )}
+
       {/* description */}
       {description && (
-        <p className="mt-3 ">
-          <span className="font-bold  text-gray-600">Description:</span> <br />
+        <p className="mt-3">
+          <span className="font-bold text-gray-600">Description:</span> <br />
           <span className="italic"> {description}</span>
         </p>
       )}
 
       {/* tag section, if the user has provided tags then the tags will be rendered here */}
-      <p className="mt-2">
+      <p className="mt-5">
         <Tag name="video" />
       </p>
     </div>
