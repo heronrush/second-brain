@@ -92,7 +92,8 @@ export default function Card({
           <TwitterPost twitterLink={contentLink} />
         )}
         {/* {contentType === "VIDEO" && <VideoPost videoLink={contentLink} />} */}
-        {contentLink.includes("youtube") && (
+        {(contentLink.includes("youtube") ||
+          contentLink.includes("youtu.be")) && (
           <VideoPost videoLink={contentLink} />
         )}
         {/* for rendering contents which are documents or links */}

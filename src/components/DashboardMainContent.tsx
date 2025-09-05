@@ -72,6 +72,7 @@ function ContentContainer() {
         </div>
       )}
 
+      {/* show this when there is no content added by the user */}
       {!userContents && (
         <div className="mt-20 flex flex-wrap justify-center gap-10 px-10 pb-20">
           <h1 className="text-3xl">No contents added yet.</h1>
