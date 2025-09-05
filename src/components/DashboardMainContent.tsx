@@ -18,7 +18,7 @@ export default function DashboardMainContent() {
   return (
     <div className="ml-64 h-full bg-[#f9fbfc] pb-50">
       <Topbar />
-      <ContentContainer />
+      <ContentContainer open={open} />
 
       <AddContentModal
         open={open}
@@ -30,7 +30,7 @@ export default function DashboardMainContent() {
   )
 }
 
-function ContentContainer() {
+function ContentContainer({ open }: { open: boolean }) {
   const [userContents, setUserContents] = useAtom(userContentAtom)
   const userId = localStorage.getItem("userId")
 
@@ -55,7 +55,7 @@ function ContentContainer() {
   // useEffect
   useEffect(() => {
     getContent()
-  }, [])
+  }, [open])
 
   // return this jsx when the user has no content added to the db
   if (userContents?.length === 0) {
