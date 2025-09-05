@@ -84,8 +84,7 @@ export function AddContentModal() {
           <LabelledInput
             onChange={(e) => setContentLink(e.target.value)}
             label="Content Link"
-            placeholder="https://x.com/..."
-            required={true}
+            placeholder="https://..."
           />
 
           <ContentType />
@@ -154,16 +153,10 @@ function ContentType() {
 type LabelledInputType = {
   label: string
   placeholder: string
-  required?: boolean
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
-function LabelledInput({
-  label,
-  placeholder,
-  required,
-  onChange,
-}: LabelledInputType) {
+function LabelledInput({ label, placeholder, onChange }: LabelledInputType) {
   return (
     <div className="my-3 w-2/3">
       <label className="text-xl font-semibold" htmlFor="">
@@ -175,7 +168,7 @@ function LabelledInput({
         type="text"
         className="mt-2 w-full rounded-sm border border-gray-300 px-2 py-3 outline-none"
         placeholder={placeholder}
-        required={required}
+        required
       />
     </div>
   )

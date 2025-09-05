@@ -1,8 +1,9 @@
-import { Suspense, useState, type ChangeEvent } from "react"
+import { Suspense, useState } from "react"
 import { BrainIcon } from "../icons/BrainIcon"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import { LoadingSpinner } from "../components/LoadingSpinner"
+import { Input } from "../components/Input"
 
 const BACKEND_URL = import.meta.env.VITE_API_URL
 
@@ -64,7 +65,7 @@ export default function Signin() {
           }}
           className="mt-10"
         >
-          <LabelledInput
+          <Input
             onChange={(e) => {
               setEmail(e.target.value)
             }}
@@ -72,7 +73,7 @@ export default function Signin() {
             placeholder="john@example.com"
             type="text"
           />
-          <LabelledInput
+          <Input
             onChange={(e) => {
               setPassword(e.target.value)
             }}
@@ -111,34 +112,5 @@ function Login() {
     >
       Log in
     </button>
-  )
-}
-
-type LabelledInputType = {
-  label: string
-  type: "text" | "password"
-  placeholder?: string
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void
-}
-
-function LabelledInput({
-  label,
-  type,
-  placeholder,
-  onChange,
-}: LabelledInputType) {
-  return (
-    <div className="my-3">
-      <label htmlFor="" className="text-sm font-semibold">
-        {label}
-      </label>
-      <br />
-      <input
-        className="mt-3 w-full rounded-md border border-gray-200 px-3 py-2 transition duration-300 outline-none focus:border-sky-700"
-        type={type}
-        placeholder={placeholder}
-        onChange={onChange}
-      />
-    </div>
   )
 }

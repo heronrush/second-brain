@@ -1,22 +1,23 @@
-import { useState, type ChangeEvent } from "react";
-import { useNavigate } from "react-router-dom";
-import { BrainIcon } from "../icons/BrainIcon";
-import axios from "axios";
-import { useSetAtom } from "jotai";
-import { userIdAtom } from "../store/atoms/contentAtom";
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { BrainIcon } from "../icons/BrainIcon"
+import axios from "axios"
+import { useSetAtom } from "jotai"
+import { userIdAtom } from "../store/atoms/contentAtom"
+import { Input } from "../components/Input"
 
-const BACKEND_URL = import.meta.env.VITE_API_URL;
+const BACKEND_URL = import.meta.env.VITE_API_URL
 
 export default function Signup() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   // from jotai atoms
-  const setUserIdAtomFromBackend = useSetAtom(userIdAtom);
+  const setUserIdAtomFromBackend = useSetAtom(userIdAtom)
 
   // all local state variables
-  const [fullname, setFullname] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [fullname, setFullname] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
   // collects all the data from the form inputs and sends them to the backend for signup
   async function sendSignupRequest() {
@@ -25,141 +26,115 @@ export default function Signup() {
         fullname: fullname,
         email: email,
         password: password,
-      });
+      })
 
       if (response.status === 200) {
-        alert("success");
-        console.log("success");
+        alert("success")
+        console.log("success")
 
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("userId", response.data.userId);
-        setUserIdAtomFromBackend(response.data.userId);
+        localStorage.setItem("token", response.data.token)
+        localStorage.setItem("userId", response.data.userId)
+        setUserIdAtomFromBackend(response.data.userId)
 
-        navigate("/dashboard");
+        navigate("/dashboard")
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {
         if (err.response?.status === 403) {
-          alert("user already exists");
+          alert("user already exists")
         } else if (err.response?.status === 411) {
-          alert("error in inputs");
+          alert("error in inputs")
         } else {
-          alert("server error");
+          alert("server error")
         }
       } else {
-        alert("some error occurred");
+        alert("some error occurred")
       }
     }
   }
 
   // final jsx returned
   return (
-    <div className="flex flex-col items-center h-screen bg-[#f9fafb]">
-      <div className="flex justify-between px-20 pt-2 w-full">
+    <div className="flex h-screen flex-col items-center bg-[#f9fafb]">
+      <div className="flex w-full justify-between px-20 pt-2">
         <button
           className="cursor-pointer"
           onClick={() => {
-            navigate("/");
+            navigate("/")
           }}
         >
           <BrainIcon />
         </button>
         <LoginButton />
       </div>
-      <div className="border bg-white w-[500px] mt-10  border-gray-200 rounded-2xl p-10 pb-16 flex flex-col justify-center">
+      <div className="mt-10 flex w-[500px] flex-col justify-center rounded-2xl border border-gray-200 bg-white p-10 pb-16">
         <h1 className="text-3xl">Get started</h1>
-        <p className="text-gray-600 mt-2">
+        <p className="mt-2 text-gray-600">
           Create your account and start storing in your second brain
         </p>
         <form
           action=""
           onSubmit={(e) => {
-            e.preventDefault();
-            sendSignupRequest();
+            e.preventDefault()
+            sendSignupRequest()
           }}
           className="mt-10"
         >
-          <LabelledInput
+          <Input
             onChange={(e) => {
-              setFullname(e.target.value);
+              setFullname(e.target.value)
             }}
             label="Full name"
-            placeholder="John doe"
+            placeholder="eg. John doe"
             type="text"
+            required
           />
-          <LabelledInput
+          <Input
             onChange={(e) => {
-              setEmail(e.target.value);
+              setEmail(e.target.value)
             }}
             label="Email"
-            placeholder="john@example.com"
+            placeholder="eg. john@example.com"
             type="text"
+            required
           />
-          <LabelledInput
+          <Input
             onChange={(e) => {
-              setPassword(e.target.value);
+              setPassword(e.target.value)
             }}
             label="Password"
             type="password"
+            required
           />
           <CreateAccount />
         </form>
       </div>
     </div>
-  );
+  )
 }
 
 function LoginButton() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   return (
     <button
       onClick={() => {
-        navigate("/login");
+        navigate("/login")
       }}
-      className="font-semibold hover:cursor-pointer text-[#37319e] text-[18px]"
+      className="text-[18px] font-semibold text-[#37319e] hover:cursor-pointer"
     >
       Log in
     </button>
-  );
+  )
 }
 
 function CreateAccount() {
   return (
     <button
       type="submit"
-      className="mt-3 self-start px-7 cursor-pointer text-white bg-blue-500 transition duration-300 py-3 rounded-md font-semibold hover:bg-[#0e57c2]"
+      className="mt-3 cursor-pointer self-start rounded-md bg-blue-500 px-7 py-3 font-semibold text-white transition duration-300 hover:bg-[#0e57c2]"
     >
       Create account
     </button>
-  );
-}
-
-type LabelledInputType = {
-  label: string;
-  type: "text" | "password";
-  placeholder?: string;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
-};
-
-function LabelledInput({
-  label,
-  type,
-  placeholder,
-  onChange,
-}: LabelledInputType) {
-  return (
-    <div className="my-3">
-      <label htmlFor="" className="text-sm font-semibold">
-        {label}
-      </label>
-      <br />
-      <input
-        className="border border-gray-200 mt-3 focus:border-sky-700 transition duration-300 outline-none w-full rounded-md px-3 py-2"
-        type={type}
-        placeholder={placeholder}
-        onChange={onChange}
-      />
-    </div>
-  );
+  )
 }
